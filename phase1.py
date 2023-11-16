@@ -14,16 +14,15 @@ def analyser_commande():
 
 def produire_historique (symbole, début, fin, v = fermeture):
 
+    url = f"https://example.com/api/historique?symbole={nom_symbole}&debut={date_debut}&fin={date_fin}"
 
+    try:
+        response = requests.get(url)
+            if valeur_desiree in historique:
+                return [(entry['date'], entry[valeur_desiree]) for entry in historique[valeur_desiree]]
+            else:
+                print(f"La valeur '{valeur_desiree}' n'est pas disponible dans l'historique.")
+                return None
 
-symbole = 'goog'
-url = f'https://pax.ulaval.ca/action/{symbole}/historique/'
-
-params = {
-    'début': '2019-02-18',
-    'fin': '2019-02-24',
-}
-
-réponse = requests.get(url=url, params=params)
 
 
