@@ -1,7 +1,7 @@
 import argparse
 import requests
 from datetime import date
-
+import json
 
 def analyser_commande():
     parser = argparse.ArgumentParser(description = "Extraction de valeurs historiques pour un ou plusieurs symboles boursiers.")
@@ -12,17 +12,19 @@ def analyser_commande():
     parser.add_argument('-v ', dest="valeur", choices=["fermeture", "ouverture", "min", "max", "volume"], default="fermeture", help="Nom d'un symbole boursier")
     return parser.parse_args()
 
-def produire_historique (symbole, début, fin, v = fermeture):
+def produire_historique(symbole, date_d, date_f, valeur):
+    url = f'https://pax.ulaval.ca/action/{symbole}/historique/'
+    liste = []
 
-    url = f"https://example.com/api/historique?symbole={nom_symbole}&debut={date_debut}&fin={date_fin}"
+    params1 = {'début': date_d, 'fin': date_f}
+    réponse = requests.get(url=url, params=params1)
 
-    try:
-        response = requests.get(url)
-            if valeur_desiree in historique:
-                return [(entry['date'], entry[valeur_desiree]) for entry in historique[valeur_desiree]]
-            else:
-                print(f"La valeur '{valeur_desiree}' n'est pas disponible dans l'historique.")
-                return None
+    fetch = json.loads(réponse.text)
+    historique = fetch['historique']
 
+    for dates in historique.items():
+        a = datetime.strptime(dates[0], '%Y-%m-%d').date(), dates[1].get(valeur,'message d\'erreur')
+        liste.append(a)  
+    return liste
 
 
