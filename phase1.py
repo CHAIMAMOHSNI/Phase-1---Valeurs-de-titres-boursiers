@@ -42,7 +42,7 @@ def analyser_commande():
     parser.add_argument(
         '-v ', '--valeur',
         dest='valeur',
-        choices=["fermeture", "ouverture", "min", "max", "volume"],
+        choices=["fermeture", 'ouverture', 'min', 'max', 'volume'],
         default="fermeture",
         help="la valeur désirée(par défaut : fermeture)",
         )
@@ -59,11 +59,11 @@ def produire_historique(symbole, debut: date, datefin: date, valeur):
     dic = json.loads(réponse.text)
     historique = dic['historique']
 
-    print(f'titre ={symbole}: valeur={valeur}, début={début}, fin={fin}')
+    print(f'titre ={symbole}: valeur={valeur}, début={debut}, fin={datefin}')
     for dates, vals in historique.items():
-        msg = datetime.strptime(ates, '%Y-%m-%d').date(), vals[valeur]
+        msg = datetime.strptime(dates, '%Y-%m-%d').date(), vals[valeur]
         liste.append(msg) 
-    print(reversed(liste)) #puisque la liste sort en ordre décroissant 
+    print(sorted(liste)) #puisque la liste sort en ordre décroissant 
 
 #Programme principal:
 
@@ -72,8 +72,9 @@ if __name__ == "__main__":
     result = []
     if analyse.debut is None:
         analyse.debut = analyse.datefin
-    
+    analyse.debut= datetime.strptime(analyse.debut, '%Y-%m-%d').date()
+    analyse.datefin= datetime.strptime(analyse.datefin, '%Y-%m-%d').date()
     for symb in analyse.symbole:
-        données = produire_historique(symbole, analyse.début, analyse.fin, analyse.valeur)
+        données = produire_historique(symb, analyse.debut, analyse.datefin, analyse.valeur)
         result.append((date, données))
     
