@@ -59,7 +59,7 @@ def produire_historique(symbole, debut: date, datefin: date, valeur):
     print(f'titre ={symbole}: valeur={valeur}, début={repr(debut)}, fin={repr(datefin)}')
     for dates, vals in historique.items():
         msg = (datetime.strptime(dates, '%Y-%m-%d').date(), vals[valeur])
-        liste.append(msg) 
+        liste.append(msg)
     return liste
 
 if __name__ == "__main__":
