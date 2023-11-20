@@ -6,10 +6,10 @@ import json
 import requests
 
 
-# d'après l'enoncé on a supposé que la date existe déjà (pas de date future donnée par l'utilisateur )
+# d'après l'enoncé on a supposé que la date existe déjà
 def analyser_commande():
     # la fonction suivante permet de prendre en consideration des données (donnés par l'utlisateur)
-    # retourne des résultats (données historiques de marché boursier pour un ou plusieurs symboles .)
+    # retourne des résultats (données historiques de marché boursier pour un ou plusieurs symboles)
 
     parser = argparse.ArgumentParser(
         description = "Extraction de valeurs historiques pour un ou plusieurs symboles boursiers."
@@ -21,7 +21,7 @@ def analyser_commande():
         dest= "debut",
         type=str,
         default= "fin",
-        help='Date recherchée la plus ancienne (format: AAAA-MM-JJ)',
+        help='Date recherchée la plus ancienne (format: AAAA-MM-JJ)'
     )
     
     parser.add_argument(
@@ -36,7 +36,7 @@ def analyser_commande():
     parser.add_argument(
         'symbole',
         nargs='+',
-        help="Nom d'un symbole boursier",
+        help="Nom d'un symbole boursier"
         )
     
     parser.add_argument(
@@ -49,7 +49,7 @@ def analyser_commande():
     return parser.parse_args()
 
 def produire_historique(symbole, debut: date, datefin: date, valeur):
-    # la fonction permet de produire l'historique complet d'une valeur boursière à partir d'un ou plusieurs symboles , la date ...
+    #produire l'historique complet d'une valeur boursière à partir d'1 ou plusieurs symboles
 
     url = f'https://pax.ulaval.ca/action/{symbole}/historique/'
     liste = []
@@ -63,7 +63,7 @@ def produire_historique(symbole, debut: date, datefin: date, valeur):
     for dates, vals in historique.items():
         msg = (datetime.strptime(dates, '%Y-%m-%d').date(), vals[valeur])
         liste.append(msg) 
-    return(liste)
+    return liste
 
 #Programme principal:
 
