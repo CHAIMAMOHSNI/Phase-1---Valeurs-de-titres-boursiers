@@ -1,4 +1,4 @@
-#projet 1 : valeur des titres boursières :
+'''projet 1 : permet de retourner la valeur des titres boursières '''
 
 import argparse
 from datetime import datetime, date
@@ -6,10 +6,11 @@ import json
 import requests
 
 
-''' d'après l'enoncé on a supposé que la date existe déjà'''
 def analyser_commande():
-    ''' la fonction suivante permet de prendre en consideration des données (donnés par l'utlisateur)
-    # retourne des résultats (données historiques de marché boursier pour un ou plusieurs symboles)'''
+    ''' 
+    la fonction suivante permet de prendre en consideration des données (donnés par l'utlisateur)
+    retourne des résultats (données historiques de marché boursier pour 1 ou plusieurs symboles)
+    '''
 
     parser = argparse.ArgumentParser(
         description = "Extraction de valeurs historiques pour un ou plusieurs symboles boursiers."
@@ -60,8 +61,6 @@ def produire_historique(symbole, debut: date, datefin: date, valeur):
         msg = (datetime.strptime(dates, '%Y-%m-%d').date(), vals[valeur])
         liste.append(msg) 
     return liste
-
-'''Programme principal:'''
 
 if __name__ == "__main__":
     analyse = analyser_commande()
