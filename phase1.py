@@ -6,10 +6,10 @@ import json
 import requests
 
 
-# d'après l'enoncé on a supposé que la date existe déjà (pas de date future donnée par l'utilisateur ) + je dois corriger les défauts de PEP8 (lignes trop longues)
+# d'après l'enoncé on a supposé que la date existe déjà (pas de date future donnée par l'utilisateur )
 def analyser_commande():
-    # la fonction suivante permet de prendre en consideration des données ( qui seront donnés par l'utlisateur) 
-    # retourne des résultats (données historiques de marché boursier pour un ou plusieurs symboles boursiers.)
+    # la fonction suivante permet de prendre en consideration des données (donnés par l'utlisateur)
+    # retourne des résultats (données historiques de marché boursier pour un ou plusieurs symboles .)
 
     parser = argparse.ArgumentParser(
         description = "Extraction de valeurs historiques pour un ou plusieurs symboles boursiers."
@@ -28,10 +28,10 @@ def analyser_commande():
         '-f', '--fin',
         metavar='DATE' ,
         dest= "datefin",
-        type=str, 
-        default= str(date.today()), 
+        type=str,
+        default= str(date.today()),
         help='Date recherchée la plus récente (format: AAAA-MM-JJ)'
-    )
+        )
 
     parser.add_argument(
         'symbole',
@@ -59,11 +59,11 @@ def produire_historique(symbole, debut: date, datefin: date, valeur):
     dic = json.loads(réponse.text)
     historique = dic['historique']
 
-    print(f'titre ={symbole}: valeur={valeur}, début={debut}, fin={datefin}')
+    print(f'titre ={symbole}: valeur={valeur}, début={repr(debut)}, fin={repr(datefin)}')
     for dates, vals in historique.items():
-        msg = datetime.strptime(dates, '%Y-%m-%d').date(), vals[valeur]
+        msg = (datetime.strptime(dates, '%Y-%m-%d').date(), vals[valeur])
         liste.append(msg) 
-    print(sorted(liste)) #puisque la liste sort en ordre décroissant 
+    return(liste)
 
 #Programme principal:
 
@@ -75,6 +75,5 @@ if __name__ == "__main__":
     analyse.debut= datetime.strptime(analyse.debut, '%Y-%m-%d').date()
     analyse.datefin= datetime.strptime(analyse.datefin, '%Y-%m-%d').date()
     for symb in analyse.symbole:
-        données = produire_historique(symb, analyse.debut, analyse.datefin, analyse.valeur)
-        result.append((date, données))
-    
+        result = produire_historique(symb, analyse.debut, analyse.datefin, analyse.valeur)
+        print(sorted(result))
