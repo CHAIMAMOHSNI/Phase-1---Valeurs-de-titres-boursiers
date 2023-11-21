@@ -20,7 +20,6 @@ def analyser_commande():
         metavar='DATE' ,
         dest= "debut",
         type=str,
-        default= "fin",
         help='Date recherchée la plus ancienne (format: AAAA-MM-JJ)'
         )
     parser.add_argument(
@@ -28,7 +27,7 @@ def analyser_commande():
         metavar='DATE' ,
         dest= "datefin",
         type=str,
-        default= str(date.today()),
+        default=str(date.today()),
         help='Date recherchée la plus récente (format: AAAA-MM-JJ)'
         )
     parser.add_argument(
@@ -37,9 +36,10 @@ def analyser_commande():
         help="Nom d'un symbole boursier"
         )
     parser.add_argument(
-        '-v ', '--valeur',
+        '-v', '--valeur',
         dest='valeur',
-        choices=["fermeture", 'ouverture', 'min', 'max', 'volume'],
+        type=str,
+        choices=['fermeture', 'ouverture', 'min', 'max', 'volume'],
         default="fermeture",
         help="la valeur désirée(par défaut : fermeture)"
         )
@@ -56,9 +56,8 @@ def produire_historique(symbole, debut: date, datefin: date, valeur):
     dic = json.loads(réponse.text)
     historique = dic['historique']
 
-    print(f'titre ={symbole}: valeur={valeur}, début={repr(debut)}, fin={repr(datefin)}')
     for dates, vals in historique.items():
-        msg = (datetime.strptime(dates, '%Y-%m-%d').date(), vals[valeur])
+        msg = (datetime.strptime(dates, "%Y-%m-%d").date(), vals[valeur])
         liste.append(msg)
     return liste
 
@@ -67,8 +66,11 @@ if __name__ == "__main__":
     result = []
     if analyse.debut is None:
         analyse.debut = analyse.datefin
+
     analyse.debut= datetime.strptime(analyse.debut, '%Y-%m-%d').date()
     analyse.datefin= datetime.strptime(analyse.datefin, '%Y-%m-%d').date()
     for symb in analyse.symbole:
         result = produire_historique(symb, analyse.debut, analyse.datefin, analyse.valeur)
+        
+        print(f'titre ={symbole}: valeur={result.valeur}, début={repr(result.debut)}, fin={repr(result.datefin)}')
         print(sorted(result))
