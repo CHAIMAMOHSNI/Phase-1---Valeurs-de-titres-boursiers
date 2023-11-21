@@ -71,6 +71,6 @@ if __name__ == "__main__":
     analyse.datefin= datetime.strptime(analyse.datefin, '%Y-%m-%d').date()
     for symb in analyse.symbole:
         result = produire_historique(symb, analyse.debut, analyse.datefin, analyse.valeur)
-        print(f'titre ={symb}: valeur={analyse.valeur},
-              début={repr(analyse.debut)}, fin={repr(analyse.datefin)}')
+        print(f'titre ={symb}: valeur={analyse.valeur}, '
+              f'début={repr(analyse.debut)}, fin={repr(analyse.datefin)}')
         print(sorted(result))
