@@ -74,3 +74,4 @@ if __name__ == "__main__":
         print(f'titre ={symb}: valeur={analyse.valeur}, '
               f'début={repr(analyse.debut)}, fin={repr(analyse.datefin)}')
         print(sorted(result))
+        
